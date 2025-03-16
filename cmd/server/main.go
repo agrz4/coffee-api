@@ -2,6 +2,8 @@ package main
 
 import (
 	"coffee_api/db"
+	"coffee_api/router"
+	"coffee_api/services"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +18,7 @@ type Config struct {
 
 type Application struct {
 	Config Config
+	Models services.Models
 }
 
 func (app *Application) Serve() error {
@@ -27,7 +30,8 @@ func (app *Application) Serve() error {
 	fmt.Println("API is listening on port", port)
 
 	srv := &http.Server{
-		Addr: fmt.Sprintf(":%s", port),
+		Addr:    fmt.Sprintf(":%s", port),
+		Handler: router.Routes(),
 	}
 	return srv.ListenAndServe()
 }
@@ -52,6 +56,7 @@ func main() {
 
 	app := &Application{
 		Config: cfg,
+		Models: services.New(dbConn.DB),
 	}
 
 	err = app.Serve()

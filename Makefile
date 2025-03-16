@@ -19,13 +19,13 @@ start_container:
 	docker start ${DB_DOCKER_CONTAINER}
 
 create_migrations:
-	sqlx migrate add -r init
+	migrate create -ext sql -dir migrations -seq init
 
 migrate_up:
-	sqlx migrate run --database-url "postgres://${USER}:${PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable"
+	migrate -database "postgres://${USER}:${PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" -path migrations up
 
 migrate_down:
-	sqlx migrate revert --database-url "postgres://${USER}:${PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable"
+	migrate -database "postgres://${USER}:${PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" -path migrations down
 
 build:
 	if [ -f "${BINARY}" ]; then \
