@@ -28,12 +28,9 @@ migrate_down:
 	migrate -database "postgres://${USER}:${PASSWORD}@${HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable" -path migrations down
 
 build:
-	if [ -f "${BINARY}" ]; then \
-		rm ${BINARY}; \
-		echo "Deleted ${BINARY}"; \
-	fi	
+	@if exist "${BINARY}" del /F "${BINARY}"
 	@echo "Building binary..."
-	go build -o ${BINARY} cmd/server/*.go
+	go build -o ${BINARY} cmd/server/main.go
 
 run: build
 	./${BINARY}
