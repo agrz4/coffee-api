@@ -1,9 +1,13 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS coffees (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    roast_level VARCHAR(50),
-    origin VARCHAR(100),
-    price DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    "id" uuid PRIMARY KEY NOT NULL DEFAULT (uuid_generate_v4()),
+    "name" varchar NOT NULL,
+    "roast" varchar NOT NULL,
+    "region" varchar NOT NULL,
+    "image" varchar NOT NULL,
+    "price" FLOAT NOT NULL,
+    "grind_unit" INT NOT NULL,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
